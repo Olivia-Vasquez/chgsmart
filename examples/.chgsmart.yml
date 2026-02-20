@@ -1,0 +1,18 @@
+group_by: type   # or "area"
+ignore:
+  - "^Merge "
+  - "^WIP"
+  - "^chore: bump"
+areas:
+  auth:
+    - "(?i)auth"
+    - "(?i)oauth"
+    - "(?i)token"
+  logging:
+    - "(?i)log"
+    - "(?i)telemetry"
+    - "(?i)trace"
+  data:
+    - "(?i)db"
+    - "(?i)sql"
+    - "(?i)migration"
