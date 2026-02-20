@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"chgsmart/internal/model"
+	"github.com/Olivia-Vasquez/chgsmart/internal/model"
 )
 
 var (

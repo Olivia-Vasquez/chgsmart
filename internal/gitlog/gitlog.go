@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"chgsmart/internal/model"
+	"github.com/Olivia-Vasquez/chgsmart/internal/model"
 )
 
 func ReadCommits(fromRef, toRef string, includeMerges bool, maxCommits int) ([]model.Commit, error) {

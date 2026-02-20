@@ -6,12 +6,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"chgsmart/internal/area"
-	"chgsmart/internal/classify"
-	"chgsmart/internal/config"
-	"chgsmart/internal/gitlog"
-	"chgsmart/internal/render"
-	"chgsmart/internal/semver"
+	"github.com/Olivia-Vasquez/chgsmart/internal/area"
+	"github.com/Olivia-Vasquez/chgsmart/internal/classify"
+	"github.com/Olivia-Vasquez/chgsmart/internal/config"
+	"github.com/Olivia-Vasquez/chgsmart/internal/gitlog"
+	"github.com/Olivia-Vasquez/chgsmart/internal/render"
+	"github.com/Olivia-Vasquez/chgsmart/internal/semver"
 )
 
 func main() {

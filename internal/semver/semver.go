@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"chgsmart/internal/render"
+	"github.com/Olivia-Vasquez/chgsmart/internal/render"
 )
 
 type Version struct {
