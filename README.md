@@ -14,7 +14,7 @@ Generate human-friendly changelogs from git history, even when commit messages a
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/yourusername/chgsmart.git
+git clone https://github.com/Olivia-Vasquez/chgsmart.git
 cd chgsmart
 pip install -r requirements.txt
 ```
