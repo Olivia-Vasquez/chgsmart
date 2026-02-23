@@ -23,8 +23,14 @@ func main() {
 		groupBy       = flag.String("group-by", "", "group by: type|area (default from config or type)")
 		maxCommits    = flag.Int("max-commits", 0, "max commits to read (0 = unlimited)")
 		includeMerges = flag.Bool("include-merges", false, "include merge commits")
+		help          = flag.Bool("help", false, "show help")
 	)
 	flag.Parse()
+
+	if *help {
+		flag.Usage()
+		return
+	}
 
 	if *fromRef == "" {
 		fmt.Fprintln(os.Stderr, "error: --from is required")

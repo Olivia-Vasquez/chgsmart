@@ -11,12 +11,19 @@ Generate human-friendly changelogs from git history, even when commit messages a
 
 ## Installation
 
-Clone the repository and install dependencies:
+Install chgsmart:
 
 ```bash
-git clone https://github.com/yourusername/chgsmart.git
-cd chgsmart
-pip install -r requirements.txt
+brew install pipx
+pipx ensurepath
+
+pipx install git+https://github.com/Olivia-Vasquez/chgsmart.git
+```
+
+Verify install:
+
+```bash
+chgsmart --help
 ```
 
 ## Usage
@@ -29,14 +36,15 @@ python chgsmart.py
 
 You can specify options:
 
-- `--output <file>`: Write changelog to a file
+- `--out <filepath>`: Write changelog to a file
+- `--group-by <category>`: Group by category (`type`, `area`) 
 - `--format <type>`: Choose output format (`markdown`, `text`)
-- `--since <commit>`: Start changelog from a specific commit
+- `--include-merges`: Include merge commits
 
 Example:
 
 ```bash
-python chgsmart.py --output CHANGELOG.md --format markdown --since v1.0.0
+python chgsmart.py --out /Desktop/CHANGELOG.md --format markdown --include-merges
 ```
 
 ## How It Works

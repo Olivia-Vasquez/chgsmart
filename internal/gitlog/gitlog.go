@@ -29,7 +29,7 @@ func ReadCommits(fromRef, toRef string, includeMerges bool, maxCommits int) ([]m
 	args = append(args, rangeArg)
 
 	cmd := exec.Command("git", args...)
-	out, err := cmd.Output()
+	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return nil, fmt.Errorf("git log failed: %w", err)
 	}
