@@ -1,55 +1,79 @@
 # chgsmart
 Generate human-friendly changelogs from git history, even when commit messages aren’t perfect.
 
+chgsmart is a Go-based CLI tool for generating categorized changelogs from git history. It works even with imperfect commit messages, using heuristics and conventional commit parsing to classify changes.
+
+## Status
+Alpha – Core functionality is present; release process and advanced features are planned.
+
 ## Features
 
 - Parses git history to generate readable changelogs
 - Handles imperfect or inconsistent commit messages
 - Groups related changes for clarity
-- Supports multiple output formats (Markdown, plain text)
-- Customizable templates for changelog sections
+- Outputs Markdown changelogs
+- Configurable via YAML (areas, ignore patterns)
+
+## Requirements
+- Go 1.20 or newer
 
 ## Installation
 
-Install chgsmart:
+Install with Go:
 
 ```bash
-brew install pipx
-pipx ensurepath
-
-pipx install git+https://github.com/Olivia-Vasquez/chgsmart.git
+go install github.com/Olivia-Vasquez/chgsmart/cmd/chgsmart@latest
 ```
-
-Verify install:
+Ensure your Go bin directory is in your PATH:
 
 ```bash
-chgsmart --help
+export PATH="$PATH:$(go env GOPATH)/bin"
 ```
 
-## Usage
-
-Run `chgsmart` in your project directory:
+## Quickstart
+Run in your project directory
 
 ```bash
-python chgsmart.py
+chgsmart --from v0.1.0 --to HEAD --out CHANGELOG.md
 ```
 
-You can specify options:
 
-- `--out <filepath>`: Write changelog to a file
+Common options:
+
+- `--from <ref>`: Start git ref (required)
+- `--to <ref>`: End git ref (default HEAD)
+- `--out <filepath>`:Output path (default stdout)
 - `--group-by <category>`: Group by category (`type`, `area`) 
-- `--format <type>`: Choose output format (`markdown`, `text`)
-- `--include-merges`: Include merge commits
+- `--include-merges`: Include merge commit
+- `--max-commits <N>`: Limit number of commits
 
 Example:
 
 ```bash
-python chgsmart.py --out /Desktop/CHANGELOG.md --format markdown --include-merges
+chgsmart --from v0.1.0 --to HEAD --group-by area --out CHANGELOG.md
+``` 
+
+## Example Output
+```
+## Unreleased
+
+### Added
+- feat: add login endpoint
+
+### Fixed
+- fix: patch race condition
+
+### Changed
+- refactor: cleanup user handler
 ```
 
-## How It Works
+## Documentation
 
-chgsmart analyzes your git history and extracts meaningful changes. It uses heuristics to group commits, rewrite unclear messages, and organize them into sections like "Features", "Bug Fixes", and "Other Changes".
+- docs/architecture.md
+- docs/classification-strategy.md
+- docs/release-process.md
+- docs/roadmap.md
+- docs/decisions.md
 
 ## Customization
 
