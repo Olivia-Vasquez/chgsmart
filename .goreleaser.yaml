@@ -1,0 +1,34 @@
+project_name: chgsmart
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: chgsmart
+    main: ./cmd/chgsmart
+    binary: chgsmart
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: "checksums.txt"
+
+release:
+  github:
+    owner: Olivia-Vasquez
+    name: chgsmart
