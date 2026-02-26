@@ -24,11 +24,27 @@ func main() {
 		maxCommits    = flag.Int("max-commits", 0, "max commits to read (0 = unlimited)")
 		includeMerges = flag.Bool("include-merges", false, "include merge commits")
 		help          = flag.Bool("help", false, "show help")
+		versionFlag   = flag.Bool("version", false, "show version")
 	)
 	flag.Parse()
 
+	var (
+		version = "dev"
+		commit  = "none"
+		date    = "unknown"
+	)
+
+	if *versionFlag {
+		fmt.Printf("chgsmart version %s (commit %s, date %s)\n", version, commit, date)
+		return
+	}
 	if *help {
-		flag.Usage()
+		fmt.Printf("chgsmart - Generate changelog from git history\n\n")
+		fmt.Printf("Usage:\n")
+		fmt.Printf("  chgsmart --from <ref> [options]\n\n")
+		fmt.Printf("Options:\n")
+		flag.PrintDefaults()
+
 		return
 	}
 

@@ -46,6 +46,7 @@ Common options:
 - `--group-by <category>`: Group by category (`type`, `area`) 
 - `--include-merges`: Include merge commit
 - `--max-commits <N>`: Limit number of commits
+- `--versionFlag`: Version details
 
 Example:
 
