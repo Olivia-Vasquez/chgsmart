@@ -51,3 +51,5 @@ If you have questions or need guidance, open an issue or contact the maintainer.
 ---
 
 Thank you for helping make **chgsmart** better!
+
+README.md | Created: Feb. 25, 2026 | Last Updated: Mar. 02, 2026

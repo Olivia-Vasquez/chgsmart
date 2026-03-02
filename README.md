@@ -1,7 +1,7 @@
 # chgsmart
 Generate human-friendly changelogs from git history, even when commit messages aren’t perfect.
 
-chgsmart is a Go-based CLI tool for generating categorized changelogs from git history. It works even with imperfect commit messages, using heuristics and conventional commit parsing to classify changes.
+**chgsmart** is a Go-based CLI tool for generating categorized changelogs from git history. It works even with imperfect commit messages, using heuristics and conventional commit parsing to classify changes.
 
 ## Status
 Alpha – Core functionality is present; release process and advanced features are planned.
@@ -72,9 +72,11 @@ chgsmart --from v0.1.0 --to HEAD --group-by area --out CHANGELOG.md
 
 - docs/architecture.md
 - docs/classification-strategy.md
+- docs/code-of-conduct.md
+- docs/development.md
 - docs/release-process.md
 - docs/roadmap.md
-- docs/decisions.md
+- docs/scope.md
 
 ## Customization
 
@@ -91,3 +93,7 @@ This project is licensed under the MIT License.
 ## Contact
 
 For questions or feedback, open an issue or email oliviavasquez@fakemail.com.
+
+---
+
+README.md | Created ... | Last Updated: Mar. 02, 2026

@@ -2,7 +2,7 @@
 
 ## What is Classification?
 
-Classification in chgsmart means assigning each commit to a category (e.g., Added, Fixed, Changed) based on its message. This helps generate clear, grouped changelogs.
+Classification in **chgsmart** means assigning each commit to a category (e.g., Added, Fixed, Changed) based on its message. This helps generate clear, grouped changelogs.
 
 ## Current Approach
 
@@ -46,3 +46,7 @@ Classification in chgsmart means assigning each commit to a category (e.g., Adde
 - Support for additional commit types
 - Improved handling of ambiguous messages
 - Area detection from commit scope
+
+---
+
+classification-strategy.md | Created: Feb. 25, 2026 | Last Updated: Mar. 02, 2026

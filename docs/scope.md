@@ -1,7 +1,5 @@
 # chgsmart v1.0 Scope Document
 
-**chgsmart** is a command-line tool for git repositories that ingests commit history and generates structured changelogs. It enables developers to quickly create documentation from existing commit messages using heuristic analysis, even when messages are inconsistently formatted.
-
 ## Target Users
 
 chgsmart is designed for solo developers and teams who use git and write commit messages that loosely follow best practices. It is especially helpful for projects where commit message quality varies.
@@ -38,4 +36,4 @@ chgsmart is designed for solo developers and teams who use git and write commit 
 
 ---
 
-This scope document defines the goals and boundaries for chgsmart v1.0, ensuring a focused and reliable tool for changelog generation.
+scope.md | Created: Feb. 25, 2026 | Last Updated: Mar. 02, 2026

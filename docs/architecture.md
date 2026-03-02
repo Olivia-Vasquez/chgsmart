@@ -1,8 +1,6 @@
 # Architecture
 
-chgsmart is a Go-based CLI tool that generates categorized changelogs from git history. It is designed to work even with imperfect commit messages, using heuristics and conventional commit parsing to classify changes.
-
-## Data Flow
+# Data Flow
 
 1. **CLI Invocation**: User runs `chgsmart` with flags (e.g., `--from`, `--to`, `--out`).
 2. **Git Log Retrieval**: The tool fetches commit history between specified refs using `git log`.
@@ -43,3 +41,4 @@ chgsmart is a Go-based CLI tool that generates categorized changelogs from git h
    v
 [config] --regexes--> [main.go]
 ```
+architecture.md | Created: Feb. 25, 2026 | Last Updated: Mar. 02, 2026
