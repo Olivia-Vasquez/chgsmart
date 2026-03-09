@@ -1,6 +1,9 @@
 {
-    "max-commits" : 50,
+    "from-ref" : "HEAD~100",
+    "to-ref" : "HEAD",
     "group-by" : "type",
+    "max-commits" : 50,
+    "include-merges" : false,
     "ignore" : [
         "chore",
         "docs",
@@ -26,9 +29,5 @@
             "ux",
             "design"
         ]
-    },
-    "include-merges" : false,
-    "from-ref" : "HEAD~100",
-    "to-ref" : "HEAD"
-
+    }
 }

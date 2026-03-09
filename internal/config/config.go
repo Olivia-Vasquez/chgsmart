@@ -11,23 +11,31 @@ import (
 )
 
 type Config struct {
-	GroupBy string              `yaml:"group_by"`
-	Ignore  []string            `yaml:"ignore"`
-	Areas   map[string][]string `yaml:"areas"`
+	GroupBy       string              `yaml:"group_by"`
+	Ignore        []string            `yaml:"ignore"`
+	Areas         map[string][]string `yaml:"areas"`
+	FromRef       string              `yaml:"from_ref"`
+	ToRef         string              `yaml:"to_ref"`
+	MaxCommits    int                 `yaml:"max_commits"`
+	IncludeMerges bool                `yaml:"include_merges"`
 }
 
 func Default() Config {
 	return Config{
-		GroupBy: "type",
-		Ignore:  []string{`^Merge `, `^WIP`},
-		Areas:   map[string][]string{},
+		GroupBy:       "type",
+		Ignore:        []string{`^Merge `, `^WIP`},
+		Areas:         map[string][]string{},
+		FromRef:       "",
+		ToRef:         "HEAD",
+		MaxCommits:    0,
+		IncludeMerges: false,
 	}
 }
 
 func Load(path string) (Config, error) {
 	cfg := Default()
 
-	// Auto-detect .chgsmart.yml if path not provided
+	// Auto-detect .chgsmart.yml in project root if path not provided
 	if path == "" {
 		if _, err := os.Stat(".chgsmart.yml"); err == nil {
 			path = ".chgsmart.yml"

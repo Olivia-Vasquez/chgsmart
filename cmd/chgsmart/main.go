@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
@@ -20,7 +21,7 @@ func main() {
 		fromRef       = flag.String("from", "", "git ref to start from (required)")
 		toRef         = flag.String("to", "HEAD", "git ref to end at (default HEAD)")
 		outPath       = flag.String("out", "", "output path (default stdout)")
-		configPath    = flag.String("config", "", "path to .chgsmart.yml (default auto-detect)")
+		configPath    = flag.String("config", "", "path to .chgsmart.yml in project root (default auto-detect)")
 		groupBy       = flag.String("group-by", "", "group by: type|area (default from config or type)")
 		maxCommits    = flag.Int("max-commits", 0, "max commits to read (0 = unlimited)")
 		includeMerges = flag.Bool("include-merges", false, "include merge commits")
@@ -28,6 +29,25 @@ func main() {
 		versionFlag   = flag.Bool("version", false, "show version")
 	)
 	flag.Parse()
+
+	// Create config structure with defaults, then override with config file and command-line flags
+	type Config struct {
+		fromRef 	 string
+		toRef 		 string
+		groupBy       string
+		maxCommits    int
+		includeMerges bool
+		ignore		  []string
+	}
+
+	func parseConfig(jsonData []byte) Config{
+		var cfg Config
+		if err := json.Unmarshal(jsonData, &cfg); err != nil {
+			fmt.Fprintln(os.Stderr, "error parsing config:", err)
+			os.Exit(1)
+		} else
+		return cfg
+	}
 
 	// Get version info from git at build time using -ldflags
 	var (
@@ -55,31 +75,43 @@ func main() {
 		return
 	}
 
-	if *fromRef == "" {
-		fmt.Fprintln(os.Stderr, "error: --from is required")
-		flag.Usage()
-		os.Exit(2)
-	}
+	       cfg, err := config.Load(*configPath)
+	       if err != nil {
+		       fmt.Fprintln(os.Stderr, "error loading config:", err)
+		       os.Exit(1)
+	       }
 
-	// Load configuration, allowing command-line flags to override config values
-	cfg, err := config.Load(*configPath)
-	if err != nil {
-		fmt.Fprintln(os.Stderr, "error loading config:", err)
-		os.Exit(1)
-	}
-	if *groupBy != "" {
-		cfg.GroupBy = *groupBy
-	}
-	if cfg.GroupBy == "" {
-		cfg.GroupBy = "type"
-	}
+	       // CLI flags override config values if set
+	       if *fromRef != "" {
+		       cfg.FromRef = *fromRef
+	       }
+	       if cfg.FromRef == "" {
+		       fmt.Fprintln(os.Stderr, "error: --from is required (or from_ref in config)")
+		       flag.Usage()
+		       os.Exit(2)
+	       }
+	       if *toRef != "" {
+		       cfg.ToRef = *toRef
+	       }
+	       if *groupBy != "" {
+		       cfg.GroupBy = *groupBy
+	       }
+	       if cfg.GroupBy == "" {
+		       cfg.GroupBy = "type"
+	       }
+	       if *maxCommits != 0 {
+		       cfg.MaxCommits = *maxCommits
+	       }
+	       if *includeMerges {
+		       cfg.IncludeMerges = *includeMerges
+	       }
 
-	// Read git commits, applying filters based on command-line flags
-	commits, err := gitlog.ReadCommits(*fromRef, *toRef, *includeMerges, *maxCommits)
-	if err != nil {
-		fmt.Fprintln(os.Stderr, "error reading git history:", err)
-		os.Exit(1)
-	}
+	       // Read git commits, applying filters based on config/flags
+	       commits, err := gitlog.ReadCommits(cfg.FromRef, cfg.ToRef, cfg.IncludeMerges, cfg.MaxCommits)
+	       if err != nil {
+		       fmt.Fprintln(os.Stderr, "error reading git history:", err)
+		       os.Exit(1)
+	       }
 
 	ignore := config.MustCompileRegexList(cfg.Ignore)
 	areas := area.MustCompileAreaMatchers(cfg.Areas)
@@ -104,21 +136,21 @@ func main() {
 		})
 	}
 
-	md := render.Markdown(render.Options{
-		Title:   "Unreleased",
-		GroupBy: cfg.GroupBy,
-		Items:   kept,
-	})
+	       md := render.Markdown(render.Options{
+		       Title:   "Unreleased",
+		       GroupBy: cfg.GroupBy,
+		       Items:   kept,
+	       })
 
-	// Semver bump suggestion (best-effort)
-	bump := semver.SuggestBump(kept)
-	var bumpLine string
-	if v, ok := semver.ParseVersionFromRef(*fromRef); ok {
-		next := semver.ApplyBump(v, bump)
-		bumpLine = fmt.Sprintf("\nSuggested version bump: %s (%s -> %s)\n", bump, v.StringWithV(), next.StringWithV())
-	} else {
-		bumpLine = fmt.Sprintf("\nSuggested version bump: %s\n", bump)
-	}
+	       // Semver bump suggestion (best-effort)
+	       bump := semver.SuggestBump(kept)
+	       var bumpLine string
+	       if v, ok := semver.ParseVersionFromRef(cfg.FromRef); ok {
+		       next := semver.ApplyBump(v, bump)
+		       bumpLine = fmt.Sprintf("\nSuggested version bump: %s (%s -> %s)\n", bump, v.StringWithV(), next.StringWithV())
+	       } else {
+		       bumpLine = fmt.Sprintf("\nSuggested version bump: %s\n", bump)
+	       }
 
 	output := md + bumpLine
 

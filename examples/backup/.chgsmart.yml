@@ -1,4 +1,6 @@
-group_by: type   # or "area"
+# Backup of previous .chgsmart.yml
+# This file is now archived. The merged config is in project root.
+group_by: type
 ignore:
   - "^Merge "
   - "^WIP"

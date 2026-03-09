@@ -1,0 +1,39 @@
+group_by: type
+ignore:
+  - "^Merge "
+  - "^WIP"
+  - "^chore: bump"
+  - "chore"
+  - "docs"
+  - "style"
+  - "refactor"
+  - "perf"
+  - "test"
+areas:
+  auth:
+    - "(?i)auth"
+    - "(?i)oauth"
+    - "(?i)token"
+    - "login"
+    - "signup"
+    - "password"
+  billing:
+    - "billing"
+    - "invoice"
+    - "payment"
+  ui:
+    - "ui"
+    - "ux"
+    - "design"
+  logging:
+    - "(?i)log"
+    - "(?i)telemetry"
+    - "(?i)trace"
+  data:
+    - "(?i)db"
+    - "(?i)sql"
+    - "(?i)migration"
+from_ref: ""
+to_ref: "HEAD"
+max_commits: 0
+include_merges: false
