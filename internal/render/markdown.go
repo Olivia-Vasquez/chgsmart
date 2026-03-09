@@ -33,8 +33,15 @@ func Markdown(opt Options) string {
 		return b.String()
 	}
 
+	// Sort items by hash for deterministic output
+	items := make([]Item, len(opt.Items))
+	copy(items, opt.Items)
+	sort.SliceStable(items, func(i, j int) bool {
+		return items[i].Hash < items[j].Hash
+	})
+
 	if opt.GroupBy == "area" {
-		byArea := groupByArea(opt.Items)
+		byArea := groupByArea(items)
 		areas := sortedKeys(byArea)
 
 		for _, area := range areas {
@@ -50,7 +57,7 @@ func Markdown(opt Options) string {
 		return b.String()
 	}
 
-	byType := groupByType(opt.Items)
+	byType := groupByType(items)
 	writeTypes(&b, byType)
 	return b.String()
 }
