@@ -1,0 +1,34 @@
+{
+    "max-commits" : 50,
+    "group-by" : "type",
+    "ignore" : [
+        "chore",
+        "docs",
+        "style",
+        "refactor",
+        "perf",
+        "test"
+    ],
+    "areas" : {
+        "auth": [
+            "auth",
+            "login",
+            "signup",
+            "password"
+        ],
+        "billing": [
+            "billing",
+            "invoice",
+            "payment"
+        ],
+        "ui": [
+            "ui",
+            "ux",
+            "design"
+        ]
+    },
+    "include-merges" : false,
+    "from-ref" : "HEAD~100",
+    "to-ref" : "HEAD"
+
+}

@@ -11,7 +11,6 @@ type Matcher struct {
 	Regex *regexp.Regexp
 }
 
-// TODO: this panics on invalid regexes, which is not ideal. We should probably return an error instead
 func MustCompileAreaMatchers(areas map[string][]string) []Matcher {
 	matchers := make([]Matcher, 0)
 
