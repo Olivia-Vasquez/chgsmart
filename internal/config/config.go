@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -62,7 +63,8 @@ func MustCompileRegexList(patterns []string) []*regexp.Regexp {
 	for _, p := range patterns {
 		r, err := regexp.Compile(p)
 		if err != nil {
-			panic(err)
+			text := "error compiling regex pattern '%s': %v"
+			panic(fmt.Errorf(text, p, err))
 		}
 		rs = append(rs, r)
 	}

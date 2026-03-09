@@ -15,6 +15,7 @@ import (
 )
 
 func main() {
+	// Define command-line flags with consistent naming and helpful descriptions
 	var (
 		fromRef       = flag.String("from", "", "git ref to start from (required)")
 		toRef         = flag.String("to", "HEAD", "git ref to end at (default HEAD)")
@@ -28,6 +29,7 @@ func main() {
 	)
 	flag.Parse()
 
+	// Get version info from git at build time using -ldflags
 	var (
 		version = "dev"
 		commit  = "none"
@@ -38,13 +40,18 @@ func main() {
 		fmt.Printf("chgsmart version %s (commit %s, date %s)\n", version, commit, date)
 		return
 	}
+	// Create comprehensive help message that includes usage, options, and examples
 	if *help {
 		fmt.Printf("chgsmart - Generate changelog from git history\n\n")
 		fmt.Printf("Usage:\n")
 		fmt.Printf("  chgsmart --from <ref> [options]\n\n")
 		fmt.Printf("Options:\n")
 		flag.PrintDefaults()
-
+		fmt.Printf("\nExamples:\n")
+		fmt.Printf("  # Generate changelog from last tag to HEAD\n")
+		fmt.Printf("  chgsmart --from $(git describe --tags --abrev=0)\n\n")
+		fmt.Printf("  # Generate changelog for a specific range and output to file\n")
+		fmt.Printf("  chgsmart --from v1.0.0 --to v1.1.0 --out CHANGELOG.md\n\n")
 		return
 	}
 
@@ -54,6 +61,7 @@ func main() {
 		os.Exit(2)
 	}
 
+	// Load configuration, allowing command-line flags to override config values
 	cfg, err := config.Load(*configPath)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "error loading config:", err)
@@ -66,6 +74,7 @@ func main() {
 		cfg.GroupBy = "type"
 	}
 
+	// Read git commits, applying filters based on command-line flags
 	commits, err := gitlog.ReadCommits(*fromRef, *toRef, *includeMerges, *maxCommits)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "error reading git history:", err)
@@ -75,6 +84,7 @@ func main() {
 	ignore := config.MustCompileRegexList(cfg.Ignore)
 	areas := area.MustCompileAreaMatchers(cfg.Areas)
 
+	// Classify and filter commits, preparing them for rendering
 	kept := make([]render.Item, 0, len(commits))
 	for _, c := range commits {
 		if config.MatchesAny(ignore, c.Subject) {
