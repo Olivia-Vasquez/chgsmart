@@ -3,23 +3,12 @@ package render
 import (
 	"sort"
 	"strings"
+
+	"github.com/Olivia-Vasquez/chgsmart/internal/model" // import the model package to use model.Options and model.Item
 )
 
-type Item struct {
-	Hash     string
-	Subject  string
-	Type     string // "Added", "Fixed", ...
-	Area     string
-	Breaking bool
-}
-
-type Options struct {
-	Title   string // "Unreleased"
-	GroupBy string // "type" or "area"
-	Items   []Item
-}
-
-func Markdown(opt Options) string {
+// MarkdownRender renders the options as a markdown string.
+func MarkdownRender(opt model.Options) string {
 	var b strings.Builder
 	title := opt.Title
 	if title == "" {
@@ -34,7 +23,7 @@ func Markdown(opt Options) string {
 	}
 
 	// Sort items by hash for deterministic output
-	items := make([]Item, len(opt.Items))
+	items := make([]model.Item, len(opt.Items))
 	copy(items, opt.Items)
 	sort.SliceStable(items, func(i, j int) bool {
 		return items[i].Hash < items[j].Hash
@@ -62,7 +51,7 @@ func Markdown(opt Options) string {
 	return b.String()
 }
 
-func writeTypes(b *strings.Builder, byType map[string][]Item) {
+func writeTypes(b *strings.Builder, byType map[string][]model.Item) {
 	order := []string{"Added", "Fixed", "Changed", "Docs", "Tests", "Chore"}
 	for _, t := range order {
 		items := byType[t]
@@ -112,16 +101,16 @@ func writeTypes(b *strings.Builder, byType map[string][]Item) {
 	}
 }
 
-func groupByType(items []Item) map[string][]Item {
-	m := map[string][]Item{}
+func groupByType(items []model.Item) map[string][]model.Item {
+	m := map[string][]model.Item{}
 	for _, it := range items {
 		m[it.Type] = append(m[it.Type], it)
 	}
 	return m
 }
 
-func groupByArea(items []Item) map[string][]Item {
-	m := map[string][]Item{}
+func groupByArea(items []model.Item) map[string][]model.Item {
+	m := map[string][]model.Item{}
 	for _, it := range items {
 		m[it.Area] = append(m[it.Area], it)
 	}

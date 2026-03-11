@@ -3,12 +3,12 @@ package model
 type CommitType string
 
 const (
-	TypeAdded  CommitType = "Added"
-	TypeFixed  CommitType = "Fixed"
+	TypeAdded   CommitType = "Added"
+	TypeFixed   CommitType = "Fixed"
 	TypeChanged CommitType = "Changed"
-	TypeDocs   CommitType = "Docs"
-	TypeChore  CommitType = "Chore"
-	TypeTests  CommitType = "Tests"
+	TypeDocs    CommitType = "Docs"
+	TypeChore   CommitType = "Chore"
+	TypeTests   CommitType = "Tests"
 )
 
 type Commit struct {
@@ -19,4 +19,18 @@ type Commit struct {
 	Type     CommitType
 	Area     string
 	Breaking bool
+}
+
+type Item struct {
+	Hash     string
+	Subject  string
+	Type     string
+	Area     string
+	Breaking bool
+}
+
+type Options struct {
+	Title   string
+	GroupBy string
+	Items   []Item
 }

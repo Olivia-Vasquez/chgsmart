@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Olivia-Vasquez/chgsmart/internal/render"
+	"github.com/Olivia-Vasquez/chgsmart/internal/model"
 )
 
 type Version struct {
@@ -26,7 +26,7 @@ const (
 	Patch Bump = "patch"
 )
 
-func SuggestBump(items []render.Item) Bump {
+func SuggestBump(items []model.Item) Bump {
 	hasAdded := false
 	for _, it := range items {
 		if it.Breaking {
