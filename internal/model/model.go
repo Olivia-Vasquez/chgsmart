@@ -22,11 +22,11 @@ type Commit struct {
 }
 
 type Item struct {
-	Hash     string
-	Subject  string
-	Type     string
-	Area     string
-	Breaking bool
+	Hash     string `json:"hash"`
+	Subject  string `json:"subject"`
+	Type     string `json:"type"`
+	Area     string `json:"area,omitempty"`
+	Breaking bool   `json:"breaking"`
 }
 
 type Options struct {
