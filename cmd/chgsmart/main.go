@@ -19,7 +19,7 @@ func main() {
 		fromRef       = flag.String("from", "", "git ref to start from (required)")
 		toRef         = flag.String("to", "HEAD", "git ref to end at (default HEAD)")
 		outPath       = flag.String("out", "", "output path (default stdout)")
-		format        = flag.String("format", "", "output format: markdown|json|text (default based on output file extension or markdown)")
+		format        = flag.String("format", "", "output format: md|markdown|json|text (default based on output file extension or markdown)")
 		configPath    = flag.String("config", "", "path to .chgsmart.yml in project root (default auto-detect)")
 		groupBy       = flag.String("group-by", "", "group by: type|area (default from config or type)")
 		maxCommits    = flag.Int("max-commits", 0, "max commits to read (0 = unlimited)")

@@ -13,6 +13,11 @@ import (
 // Render renders the options to specified output path. The file extension is determined by format parameter or inferred from the output path. If no output path is provided, it prints to stdout.
 func Render(opt model.Options, format string, outPath string) error {
 
+	// Normalize "md" alias to "markdown"
+	if format == "md" {
+		format = "markdown"
+	}
+
 	// Get file extension and determine format if not explicitly set
 	if format == "" {
 		format = "markdown" // default format
@@ -34,30 +39,25 @@ func Render(opt model.Options, format string, outPath string) error {
 		if len(outPath) > 0 && !hasExtension(outPath, ".json") {
 			outPath = outPath + ".json"
 		}
-		out = render.JSONRender(opt)
+		bump := semver.SuggestBump(opt.Items)
+		out = render.JSONRender(opt, string(bump))
 	case "text":
 		if len(outPath) > 0 && !hasExtension(outPath, ".txt", ".text") {
 			outPath = outPath + ".txt"
 		}
+		bump := semver.SuggestBump(opt.Items)
 		out = render.TextRender(opt)
+		out += fmt.Sprintf("\nSuggested version bump: %s\n", bump)
 	case "markdown":
 		if len(outPath) > 0 && !hasExtension(outPath, ".md", ".markdown") {
 			outPath = outPath + ".md"
 		}
-		out = render.TextRender(opt)
+		bump := semver.SuggestBump(opt.Items)
+		out = render.MarkdownRender(opt)
+		out += fmt.Sprintf("\nSuggested version bump: %s\n", bump)
 	default:
 		return fmt.Errorf("unsupported output format: %s", format)
 	}
-
-	// Get semver bump suggestion (best-effort)
-	bump := semver.SuggestBump(opt.Items)
-	bumpLine := fmt.Sprintf("\nSuggested version bump: %s\n", bump)
-
-	// Append bump suggestion to output for markdown and text formats
-	if format == "markdown" || format == "text" {
-		out += bumpLine
-	}
-
 	// Save final output to file
 	if len(outPath) > 0 {
 		if err := os.WriteFile(outPath, []byte(out), 0644); err != nil {
