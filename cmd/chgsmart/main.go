@@ -140,4 +140,10 @@ func main() {
 		fmt.Fprintln(os.Stderr, "error rendering output:", err)
 		os.Exit(1)
 	}
+
+	// A few test lines for new linter workflow on git
+	fmt.Printf("Generated changelog with %d items\n", len(kept))
+	fmt.Printf("Config: from=%s to=%s group_by=%s max_commits=%d include_merges=%v\n",
+		cfg.FromRef, cfg.ToRef, cfg.GroupBy, cfg.MaxCommits, cfg.IncludeMerges)
+
 }
